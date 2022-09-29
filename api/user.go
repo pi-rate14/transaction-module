@@ -65,5 +65,5 @@ func (server *Server) createUser(ctx *gin.Context) {
 		CreatedAt: user.CreatedAt,
 	}
 
-	ctx.JSON(http.StatusCreated, rsp)
+	ctx.JSON(http.StatusOK, rsp)
 }
