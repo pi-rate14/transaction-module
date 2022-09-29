@@ -8,16 +8,19 @@ import (
 
 	"github.com/pi-rate14/transaction-module/api"
 	db "github.com/pi-rate14/transaction-module/db/sqlc"
+	"github.com/pi-rate14/transaction-module/util"
 )
 
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:secret@localhost:5432/transaction_module?sslmode=disable"
-	serverAddress = "0.0.0.0:8080"
-)
+
 
 func main() {
-	conn, err := sql.Open(dbDriver, dbSource)
+
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load env variables")
+	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("Cannot connect to database db: ", err)
 	}
@@ -25,7 +28,7 @@ func main() {
 	store := db.NewStore(conn)
 	server := api.NewServer(store)
  
-	err = server.Start(serverAddress)
+	err = server.Start(config.ServerAddress)
 
 	if err != nil {
 		log.Fatal("cannot start server")

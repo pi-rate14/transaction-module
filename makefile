@@ -30,4 +30,8 @@ test:
 server:
 	go run main.go
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server
+# mock data
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/pi-rate14/transaction-module/db/sqlc Store
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mock
