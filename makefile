@@ -14,9 +14,17 @@ dropdb:
 migrateup:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/transaction_module?sslmode=disable" -verbose up
 
+# perform last up migration
+migrateupone:
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/transaction_module?sslmode=disable" -verbose up 1
+
 # perform down migration
 migratedown:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/transaction_module?sslmode=disable" -verbose down
+
+# perform last down migration
+migratedownone:
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/transaction_module?sslmode=disable" -verbose down 1
 
 # sqlc 
 sqlc:
@@ -34,4 +42,4 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/pi-rate14/transaction-module/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mock
+.PHONY: postgres createdb dropdb migrateup migrateupone migratedown migratedownone sqlc test server mock
