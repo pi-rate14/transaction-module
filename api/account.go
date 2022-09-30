@@ -46,6 +46,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, account)
 }
 
+// get account params
 type getAccountRequest struct {
 	ID int64		`uri:"id" binding:"required,min=1"`
 }
