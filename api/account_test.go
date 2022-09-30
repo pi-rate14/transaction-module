@@ -253,7 +253,7 @@ func TestCreateAccountAPI(t *testing.T) {
 			server := NewTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
-			// Marshal body data to JSON
+			// Marshal body data into JSON
 			data, err := json.Marshal(tc.body)
 			require.NoError(t, err)
 
