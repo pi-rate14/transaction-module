@@ -1,6 +1,6 @@
 # start the postgres container on port 5432
 postgres:
-	docker run --name postgres14simplebank -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.2
+	docker run --name postgres14simplebank --network transaction-module-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:14.2
 
 # create database
 createdb:
@@ -41,5 +41,8 @@ server:
 # mock data
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/pi-rate14/transaction-module/db/sqlc Store
+
+# run docker container on network
+# sudo docker run --name transaction-module --network transaction-module-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:secret@postgres14simplebank:5432/transaction_module?sslmode=disable" transaction-module
 
 .PHONY: postgres createdb dropdb migrateup migrateupone migratedown migratedownone sqlc test server mock
